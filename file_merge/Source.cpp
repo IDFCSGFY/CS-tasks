@@ -1,6 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-//#include <fstream>
 using namespace std;
 
 void f_couter(FILE* file, string message);
@@ -15,15 +14,15 @@ int main()
 	FILE* original = fopen("original.txt", "r+t");
 	if (original == NULL)
 	{
-		cout << "Îøèáêà îòêðûòèÿ ôàéëà." << endl;
+		cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ñ Ñ„Ð°Ð¹Ð»Ð°." << endl;
 		return 0;
 	}
 
-	f_couter(original, "Íåñîðòèðîâàíûé ôàéë: ");
+	f_couter(original, "ÐÐµÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ñ‹Ð¹ Ñ„Ð°Ð¹Ð»: ");
 
 	sort(original);
 
-	f_couter(original, "Îòñîðòèðîâàííûé ôàéë: ");
+	f_couter(original, "ÐžÑ‚ÑÐ¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ñ„Ð°Ð¹Ð»: ");
 
 	fclose(original);
 
@@ -35,23 +34,23 @@ void sort(FILE* to_sort)
 {
 	FILE *tf1 = tmpfile(), *tf2 = tmpfile();
 
-	cout << "Ïðîèñõîäèò äåëåíèå ôàéëà íà äâà âðåìåííûõ." << endl;
+	cout << "ÐŸÑ€Ð¾Ð¸ÑÑ…Ð¾Ð´Ð¸Ñ‚ Ð´ÐµÐ»ÐµÐ½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð° Ð½Ð° Ð´Ð²Ð° Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ñ…." << endl;
 	int splt_result = splitter(to_sort, tf1, tf2);
-	//ôóíêöèÿ ñïëèòòåð âîçâðàùàåò çíà÷åíèå, îáîçíà÷àþùåå êîëè÷åñòâî ýëåìåíòîâ âî âðåìåííûõ ôàéëàõ ïîñëå ïîñëåäíåãî äåëåíèÿ: 2, åñëè â îáîèõ áîëüøå îäíîãî ÷èñëà; 1, åñëè òîëüêî â ïåðâîì ôàéëå áîëüøå îäíîãî ÷èñëà
+	//Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ ÑÐ¿Ð»Ð¸Ñ‚Ñ‚ÐµÑ€ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ, Ð¾Ð±Ð¾Ð·Ð½Ð°Ñ‡Ð°ÑŽÑ‰ÐµÐµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð²Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ñ… Ñ„Ð°Ð¹Ð»Ð°Ñ… Ð¿Ð¾ÑÐ»Ðµ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐ³Ð¾ Ð´ÐµÐ»ÐµÐ½Ð¸Ñ: 2, ÐµÑÐ»Ð¸ Ð² Ð¾Ð±Ð¾Ð¸Ñ… Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ñ‡Ð¸ÑÐ»Ð°; 1, ÐµÑÐ»Ð¸ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð² Ð¿ÐµÑ€Ð²Ð¾Ð¼ Ñ„Ð°Ð¹Ð»Ðµ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¾Ð´Ð½Ð¾Ð³Ð¾ Ñ‡Ð¸ÑÐ»Ð°
 
 	if (splt_result == 2)
 	{
-		cout << "Îáà ôàéëà ïîäëåæàò äàëüíåéøåìó äåëåíèþ." << endl;
+		cout << "ÐžÐ±Ð° Ñ„Ð°Ð¹Ð»Ð° Ð¿Ð¾Ð´Ð»ÐµÐ¶Ð°Ñ‚ Ð´Ð°Ð»ÑŒÐ½ÐµÐ¹ÑˆÐµÐ¼Ñƒ Ð´ÐµÐ»ÐµÐ½Ð¸ÑŽ." << endl;
 		sort(tf1);
 		sort(tf2);
 	}
 	else if (splt_result == 1)
 	{
-		cout << "Ïåðâûé ôàéë ïîäëåæèò ôèíàëüíîìó äåëåíèþ." << endl;
+		cout << "ÐŸÐµÑ€Ð²Ñ‹Ð¹ Ñ„Ð°Ð¹Ð» Ð¿Ð¾Ð´Ð»ÐµÐ¶Ð¸Ñ‚ Ñ„Ð¸Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¼Ñƒ Ð´ÐµÐ»ÐµÐ½Ð¸ÑŽ." << endl;
 		sort(tf1);
 	}
 	else
-		cout << "Äåëåíèå áûëî çàâåðøåíî." << endl;
+		cout << "Ð”ÐµÐ»ÐµÐ½Ð¸Ðµ Ð±Ñ‹Ð»Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð¾." << endl;
 
 	merger(tf1, tf2, to_sort);
 	fclose(tf1);
@@ -71,7 +70,7 @@ int splitter(FILE* to_split, FILE* tf1, FILE* tf2)
 		{
 			fprintf(tf1, " %d", temp);
 			nums_in_f1++;
-			cout << "Çàïèñü â ïåðâûé ôàéë: " << temp << "(" << nums_in_f1 << ")" << endl;
+			cout << "Ð—Ð°Ð¿Ð¸ÑÑŒ Ð² Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ñ„Ð°Ð¹Ð»: " << temp << "(" << nums_in_f1 << ")" << endl;
 		}
 		else
 			break;
@@ -79,7 +78,7 @@ int splitter(FILE* to_split, FILE* tf1, FILE* tf2)
 		{
 			fprintf(tf2, " %d", temp);
 			nums_in_f2++;
-			cout << "Çàïèñü âî âòîðîé ôàéë: " << temp << "(" << nums_in_f1 << ")" << endl;
+			cout << "Ð—Ð°Ð¿Ð¸ÑÑŒ Ð²Ð¾ Ð²Ñ‚Ð¾Ñ€Ð¾Ð¹ Ñ„Ð°Ð¹Ð»: " << temp << "(" << nums_in_f1 << ")" << endl;
 		}
 		else
 			break;
@@ -101,17 +100,17 @@ void merger(FILE* tf1, FILE* tf2, FILE* to_merge_to)
 	rewind(to_merge_to);
 	while (true)
 	{
-		//åñòü ëè ÷èñëà â ïåðâîì ôàéëå 
+		//ÐµÑÑ‚ÑŒ Ð»Ð¸ Ñ‡Ð¸ÑÐ»Ð° Ð² Ð¿ÐµÑ€Ð²Ð¾Ð¼ Ñ„Ð°Ð¹Ð»Ðµ 
 		if (is_printed1 && fscanf(tf1, "%d", &temp1) == -1)
 			is_feof1 = true;
 		else
 			is_printed1 = false;
-		//åñòü ëè ÷èñëà âî âòîðîì ôàéëå
+		//ÐµÑÑ‚ÑŒ Ð»Ð¸ Ñ‡Ð¸ÑÐ»Ð° Ð²Ð¾ Ð²Ñ‚Ð¾Ñ€Ð¾Ð¼ Ñ„Ð°Ð¹Ð»Ðµ
 		if (is_printed2 && fscanf(tf2, "%d", &temp2) == -1)
 			is_feof2 = true;
 		else
 			is_printed2 = false;
-		//åñëè íà ýòîì öèêëå îáå ïåðåìåííûå íå ïîëó÷èëè äàííûõ ñ ôàéëîâ, òî çàâåðøèòü öèêë
+		//ÐµÑÐ»Ð¸ Ð½Ð° ÑÑ‚Ð¾Ð¼ Ñ†Ð¸ÐºÐ»Ðµ Ð¾Ð±Ðµ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ðµ Ð½Ðµ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»Ð¸ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð², Ñ‚Ð¾ Ð·Ð°Ð²ÐµÑ€ÑˆÐ¸Ñ‚ÑŒ Ñ†Ð¸ÐºÐ»
 		if (is_feof1 && is_feof2)
 			break;
 		else
@@ -141,7 +140,7 @@ void merger(FILE* tf1, FILE* tf2, FILE* to_merge_to)
 			}
 		}
 	}
-	cout << "Ñëèÿíèå äâóõ ôàéëîâ." << endl;
+	cout << "Ð¡Ð»Ð¸ÑÐ½Ð¸Ðµ Ð´Ð²ÑƒÑ… Ñ„Ð°Ð¹Ð»Ð¾Ð²." << endl;
 }
 
 void f_couter(FILE* to_cout, string message)
@@ -150,7 +149,7 @@ void f_couter(FILE* to_cout, string message)
 	rewind(to_cout);
 	if (fscanf(to_cout, "%d", &temp) != 1)
 	{
-		cout << "Ôàéë ïóñò." << endl;
+		cout << "Ð¤Ð°Ð¹Ð» Ð¿ÑƒÑÑ‚." << endl;
 	}
 	else
 	{
