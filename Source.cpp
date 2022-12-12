@@ -1,115 +1,126 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 struct Stack
 {
-	string data;
-	Stack* next;
+	char data;
+	Stack* next = NULL;
 };
 
-int getprio(string x);
-string top(Stack* S);
-string pop(Stack** S);
-void push(string x, Stack** S);
+int get_prio(char x);
+char top(Stack* S);
+char pop(Stack** S);
+void push(char x, Stack** S);
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	string instr, outstr = "";
+	string infix, postfix;
 	Stack* S = NULL;
-	Stack* new_element = (Stack*)malloc(sizeof(Stack));
-	new_element->data = "=";
-	new_element->next = NULL;
-	S = new_element;
 
-	cout << "Ââåäèòå âûðàæåíèå." << endl;
-	cin >> instr;
-
-	for (int i = 0; i < instr.size() - 1; i++)
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð²Ñ‹Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ." << endl;
+	cin >> infix;
+	
+	for (int i = 0; i < infix.length(); i++)
 	{
-		string x = instr.substr(i, 1);
-		int prio = getprio(x);
-		if (prio == 0)
-			outstr.append(x + " ");
-		else if (prio == 1) //x == "("
+		char x = infix[i];
+		if (x >= 48 && x <= 57)
 		{
-			push(x, &S);
-		}
-		else if (prio == 2) //x == ")"
-		{
-			string tempx = pop(&S);
-			while (tempx != "(")
+			postfix.append(1, x);
+			while (i < infix.length() - 1 && (infix[i + 1] >= 48 && infix[i + 1] <= 57))
 			{
-				outstr.append(tempx);
+				i++;
+				x = infix[i];
+				postfix.append(1, x);
 			}
+			postfix.append(1, ' ');
 		}
-		else if (prio >= 3 || prio <= 5) //"=" "+" "-" "*" "/"
+		else
 		{
-			while (S != NULL && getprio(top(S)) >= prio)
+			int xprio = get_prio(x);
+			if (xprio == 1) //"("
+				push(x, &S);
+			else if (xprio == 2) //")"
 			{
-				string tempx = pop(&S);
-				outstr.append(tempx);
+				x = pop(&S);
+				while (x != '(')
+				{
+					postfix.append(1, x);
+					if (S == NULL)
+						break;
+					x = pop(&S);
+				}
 			}
-			push(x, &S);
+			else if (xprio >= 3) //"=" "+" "-" "*" "/"
+			{
+				if (S != NULL)
+				{
+					while (get_prio(top(S)) >= xprio)
+					{
+						char tx = pop(&S);
+						postfix.append(1, tx);
+						if (S == NULL)
+							break;
+					}
+				}
+				push(x, &S);
+			}
 		}
 	}
 
-	cout << outstr << endl;
-
-	if (S != NULL);
+	if (S != NULL)
 	{
-		Stack* tempptr = S;
-		while (tempptr->next != NULL)
+		while (S->next != NULL)
 		{
-			tempptr = tempptr->next;
-			free(S);
-			S = tempptr;
+			char tx = pop(&S);
+			postfix.append(1, tx);
 		}
-		free(S);
+		char tx = pop(&S);
+		postfix.append(1, tx);
 	}
+
+	cout << postfix << endl;
 
 	system("pause");
 	return 0;
 }
 
-int getprio(string x)
+int get_prio(char x)
 {
-	if (x == "(")
+	if (x == '(')
 		return 1;
-	else if (x == ")")
+	else if (x == ')')
 		return 2;
-	else if (x == "=")
+	else if (x == '=')
 		return 3;
-	else if (x == "+" || x == "-")
+	else if (x == '+' || x == '-')
 		return 4;
-	else if (x == "*" || x == "/")
+	else if (x == '*' || x == '/')
 		return 5;
-	else if (x != " ")
-		return 0;
 	else
-		return -1;
+		return 0;
 }
 
-string top(Stack* S)
+char top(Stack* S)
 {
 	return S->data;
 }
 
-string pop(Stack** S)
+char pop(Stack** S)
 {
-	string tempstr = (*S)->data;
-	Stack* tempptr = *S;
+	char tempdata = (*S)->data;
+	Stack* tempptr = (*S);
 	*S = (*S)->next;
 	free(tempptr);
-	return tempstr;
+	return tempdata;
 }
 
-void push(string x, Stack** S)
+void push(char x, Stack** S)
 {
-	Stack* new_element = (Stack*)malloc(sizeof(Stack));
-	new_element->data = x;
-	Stack* temp = *S;
-	new_element->next = temp;
-	*S = new_element;
+	Stack* element = (Stack*)malloc(sizeof(Stack));
+	element->next = *S;
+	element->data = x;
+	*S = element;
 }
