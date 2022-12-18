@@ -1,3 +1,4 @@
+//1+(2-3*4/(5-6)+7)/(1*8-9)
 #include <iostream>
 #include <string>
 using namespace std;
@@ -5,13 +6,21 @@ using namespace std;
 struct Stack
 {
 	char data;
-	Stack* next = NULL;
+	Stack* next;
+};
+struct IntStack
+{
+	double data;
+	IntStack* next;
 };
 
 int get_prio(char x);
 char top(Stack* S);
 char pop(Stack** S);
 void push(char x, Stack** S);
+int topi(IntStack* S);
+int popi(IntStack** S);
+void pushi(double x, IntStack** S);
 
 int main()
 {
@@ -21,7 +30,7 @@ int main()
 	Stack* S = NULL;
 
 	cout << "Введите выражение." << endl;
-	cin >> infix;
+	getline(cin, infix);
 	
 	for (int i = 0; i < infix.length(); i++)
 	{
@@ -81,7 +90,52 @@ int main()
 		postfix.append(1, tx);
 	}
 
-	cout << postfix << endl;
+	cout << "Постфикс: " << postfix << endl;
+
+	IntStack* IS = NULL;
+
+	for (int i = 0; i < postfix.length(); i++)
+	{
+		string temp;
+		if (postfix[i] >= 48 && postfix[i] <= 57) //если начал считывать число
+		{
+			while (postfix[i] != ' ') //записывает число до конца в temp
+			{
+				temp += postfix[i];
+				i++;
+			}
+			pushi(stoi(temp), &IS);
+		}
+		int prio = get_prio(postfix[i]);
+		if (prio)
+		{
+			if (postfix[i] == '+')
+			{
+				double res = popi(&IS) + popi(&IS);
+				pushi(res, &IS);
+			}
+			else if (postfix[i] == '-')
+			{
+				double tempi = popi(&IS);
+				pushi((popi(&IS)-tempi), &IS);
+			}
+			else if (postfix[i] == '/')
+			{
+				double tempi = popi(&IS);
+				pushi((popi(&IS) / tempi), &IS);
+			}
+			else if (postfix[i] == '*')
+			{
+				double res = popi(&IS) * popi(&IS);
+				pushi(res, &IS);
+			}
+			else
+				cout << "Какая-то рандомная штука, бро, я хз." << endl;
+		}
+	}
+
+	double res = popi(&IS);
+	cout << "Вывод: " << res << endl;
 
 	system("pause");
 	return 0;
@@ -120,6 +174,28 @@ char pop(Stack** S)
 void push(char x, Stack** S)
 {
 	Stack* element = (Stack*)malloc(sizeof(Stack));
+	element->next = *S;
+	element->data = x;
+	*S = element;
+}
+
+int topi(IntStack* S)
+{
+	return S->data;
+}
+
+int popi(IntStack** S)
+{
+	int tempdata = (*S)->data;
+	IntStack* tempptr = (*S);
+	*S = (*S)->next;
+	free(tempptr);
+	return tempdata;
+}
+
+void pushi(double x, IntStack** S)
+{
+	IntStack* element = (IntStack*)malloc(sizeof(IntStack));
 	element->next = *S;
 	element->data = x;
 	*S = element;
